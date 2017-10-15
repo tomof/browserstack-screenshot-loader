@@ -1,0 +1,30 @@
+{
+  "name": "browserstack-screenshot-loader",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:tomof/browserstack-screenshot-loader.git",
+  "author": "tomof <fffjt007@gmail.com>",
+  "license": "MIT",
+  "bin": "./dist/bin/cli.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "browserstack": "^1.5.0",
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1"
+  },
+  "scripts": {
+    "dev": "node dist/bin/cli.js",
+    "dev-help": "node dist/bin/cli.js --help",
+    "watch": "babel ./src --watch --out-dir ./dist",
+    "build": "babel ./src --out-dir ./dist"
+  }
+}
