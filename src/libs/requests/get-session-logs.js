@@ -6,7 +6,7 @@ const getSessionLogs = async (logsUrl) => {
   const command = `curl -u "${credential.username}:${credential.password}" ${logsUrl}`;
 
   return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
+    exec(command, (error, stdout, _stderr) => {
       resolve(stdout);
       if (error !== null) {
         reject(error);

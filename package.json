@@ -12,6 +12,7 @@
     "browserstack": "^1.5.0",
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
+    "eslint": "^4.9.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
   },
@@ -25,6 +26,7 @@
     "dev": "node dist/bin/cli.js",
     "dev-help": "node dist/bin/cli.js --help",
     "watch": "babel ./src --watch --out-dir ./dist",
-    "build": "babel ./src --out-dir ./dist"
+    "build": "babel ./src --out-dir ./dist",
+    "lint": "eslint ./src"
   }
 }

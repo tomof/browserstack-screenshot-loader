@@ -1,0 +1,16 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "func-style": ["error", "expression"],
+    "no-console": 0,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  },
+  "extends": ["eslint:recommended"]
+}
