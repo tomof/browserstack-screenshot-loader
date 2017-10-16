@@ -22,13 +22,15 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1"
+    "babel-preset-stage-3": "^6.24.1",
+    "jest": "^21.2.1"
   },
   "scripts": {
     "dev": "node dist/bin/cli.js",
     "dev-help": "node dist/bin/cli.js --help",
     "watch": "babel ./src --watch --out-dir ./dist",
     "build": "babel ./src --out-dir ./dist",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "test": "jest ./src"
   }
 }

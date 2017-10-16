@@ -4,6 +4,9 @@ require("babel-polyfill");
 const chalk = require('chalk');
 const emoji = require('node-emoji');
 
+const constants             = require('../libs/constants');
+const genRequestOptions     = require('../libs/gen-request-options');
+const getApi                = require('../libs/requests/get-api');
 const getLatestBuildId      = require('../libs/requests/get-latest-build-id');
 const getLatestSessionId    = require('../libs/requests/get-latest-session-id');
 const getSessionLogsUrl     = require('../libs/requests/get-session-logs-url');
@@ -11,20 +14,33 @@ const getSessionLogs        = require('../libs/requests/get-session-logs');
 const extractScreenShotUrls = require('../libs/parsers/extract-screenshot-urls');
 const loadScreenshots       = require('../libs/loaders/load-screenshots');
 
+const getSessionId = async (sessionOptions, targetSessionId) => {
+  if(targetSessionId){
+    return targetSessionId;
+  }
+  const sessions = await getApi(sessionOptions);
+  return getLatestSessionId(sessions);
+};
+
 const run = async (targetSessionId, outdir) => {
-  const buildId        = await getLatestBuildId();
-  const sessionId      = targetSessionId ? targetSessionId : await getLatestSessionId(buildId);
+  const buildOptions   = genRequestOptions(constants.API_PATHS.build);
+  const builds         = await getApi(buildOptions);
+  const buildId        = getLatestBuildId(builds);
+
+  const sessionOptions = genRequestOptions(constants.API_PATHS.sessions.replace('<build-id>', buildId));
+  const sessionId      = await getSessionId(sessionOptions, targetSessionId);
+
   const sessionLogsUrl = await getSessionLogsUrl(buildId, sessionId);
   const sessionLogs    = await getSessionLogs(sessionLogsUrl);
   const screenShotUrls = extractScreenShotUrls(sessionLogs);
 
   if(!targetSessionId) {
-    console.log(chalk.yellow('target is latest session!'));
+    console.log(chalk.yellow('Target session is latest!'));
   }
   console.log(chalk.green('[Build   ID] '), buildId);
   console.log(chalk.green('[Session ID] '), sessionId);
   await loadScreenshots(screenShotUrls, outdir);
-  console.log(emoji.emojify(':sparkles::rabbit: Done!'));
+  console.log(emoji.emojify(':rabbit::sparkles: Done!'));
 };
 
 module.exports = run;

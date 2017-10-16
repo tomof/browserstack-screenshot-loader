@@ -1,7 +1,4 @@
-const getSessions = require('./get-sessions');
-
-const getLatestSessionId = async (buildId) => {
-  const sessions = await getSessions(buildId);
+const getLatestSessionId = (sessions) => {
   // TODO: assert
   return sessions[0].automation_session.hashed_id;
 };

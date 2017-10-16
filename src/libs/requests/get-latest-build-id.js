@@ -1,7 +1,4 @@
-const getBuilds = require('./get-builds');
-
-const getLatestBuildId = async () => {
-  const builds = await getBuilds();
+const getLatestBuildId = (builds) => {
   // TODO: assert
   return builds[0].automation_build.hashed_id;
 };

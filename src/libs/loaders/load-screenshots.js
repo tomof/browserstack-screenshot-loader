@@ -8,8 +8,7 @@ const paddingLength    = 4;
 const progressBarWidth = 40;
 
 const paddingZero = (val) => {
-  const length = paddingLength;
-  const pad    = new Array(1 + length).join('0');
+  const pad = new Array(1 + paddingLength).join('0');
   return (pad + val).slice(-pad.length);
 };
 
