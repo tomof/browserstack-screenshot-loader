@@ -41,6 +41,7 @@ const run = async (targetSessionId, outdir) => {
 
   console.log(chalk.green('  Build ID:'), buildId);
   console.log(chalk.green('Session ID:'), sessionId, latestMark);
+  console.log(chalk.green('Output Dir:'), outdir);
   await loadScreenshots(screenShotUrls, outdir);
   if(screenShotUrls.length === 0){
     console.log(chalk.rgb(0, 0, 0).bgYellow.bold('This session has no screenshot!'));
