@@ -3,16 +3,16 @@ require("babel-polyfill");
 
 const chalk   = require('chalk');
 
-const getCurrentBuildId     = require('../libs/requests/get-current-build-id');
-const getCurrentSessionId   = require('../libs/requests/get-current-session-id');
+const getLatestBuildId      = require('../libs/requests/get-latest-build-id');
+const getLatestSessionId    = require('../libs/requests/get-latest-session-id');
 const getSessionLogsUrl     = require('../libs/requests/get-session-logs-url');
 const getSessionLogs        = require('../libs/requests/get-session-logs');
 const extractScreenShotUrls = require('../libs/parsers/extract-screenshot-urls');
 const loadScreenshots       = require('../libs/loaders/load-screenshots');
 
 const run = async (targetSessionId, outdir) => {
-  const buildId        = await getCurrentBuildId();
-  const sessionId      = targetSessionId ? targetSessionId : await getCurrentSessionId(buildId);
+  const buildId        = await getLatestBuildId();
+  const sessionId      = targetSessionId ? targetSessionId : await getLatestSessionId(buildId);
   const sessionLogsUrl = await getSessionLogsUrl(buildId, sessionId);
   const sessionLogs    = await getSessionLogs(sessionLogsUrl);
   const screenShotUrls = extractScreenShotUrls(sessionLogs);
