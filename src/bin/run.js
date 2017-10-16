@@ -1,7 +1,8 @@
 require("babel-core/register");
 require("babel-polyfill");
 
-const chalk   = require('chalk');
+const chalk = require('chalk');
+const emoji = require('node-emoji');
 
 const getLatestBuildId      = require('../libs/requests/get-latest-build-id');
 const getLatestSessionId    = require('../libs/requests/get-latest-session-id');
@@ -23,7 +24,7 @@ const run = async (targetSessionId, outdir) => {
   console.log(chalk.green('[Build   ID] '), buildId);
   console.log(chalk.green('[Session ID] '), sessionId);
   await loadScreenshots(screenShotUrls, outdir);
-  console.log('Done!!!!!!!!');
+  console.log(emoji.emojify(':sparkles::rabbit: Done!'));
 };
 
 module.exports = run;

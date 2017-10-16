@@ -2,6 +2,7 @@ const fs          = require('fs');
 const request     = require('request');
 const ProgressBar = require('progress');
 const chalk       = require('chalk');
+const emoji       = require('node-emoji');
 
 const paddingLength    = 4;
 const progressBarWidth = 40;
@@ -29,7 +30,7 @@ const loadUrlImage = (imageUrl, filename, progressBar) => {
 
 const loadScreenshots = async (screenShotUrls, outdir) => {
   const loadPromises = [];
-  const progressBar  = new ProgressBar('  downloading [:bar] :rate/bps :percent :etas', {
+  const progressBar  = new ProgressBar(emoji.emojify(':truck: downloading [:bar] :rate/bps :percent :etas'), {
     incomplete: ' ',
     width:      progressBarWidth,
     total:      screenShotUrls.length
