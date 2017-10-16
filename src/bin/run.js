@@ -22,8 +22,8 @@ const run = async (targetSessionId, outdir) => {
   }
   console.log(chalk.green('[Build   ID] '), buildId);
   console.log(chalk.green('[Session ID] '), sessionId);
-
-  loadScreenshots(screenShotUrls, outdir);
+  await loadScreenshots(screenShotUrls, outdir);
+  console.log('Done!!!!!!!!');
 };
 
 module.exports = run;
