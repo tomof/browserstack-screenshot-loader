@@ -6,10 +6,11 @@ const emoji = require('node-emoji');
 
 const constants             = require('../libs/constants');
 const genRequestOptions     = require('../libs/gen-request-options');
+const genSessionDirName     = require('../libs/gen-session-dir-name');
 const getApi                = require('../libs/requests/get-api');
 const getLatestBuildId      = require('../libs/requests/get-latest-build-id');
 const getLatestSessionId    = require('../libs/requests/get-latest-session-id');
-const getSessionLogsUrl     = require('../libs/requests/get-session-logs-url');
+const getSessionInfo        = require('../libs/requests/get-session-info');
 const getSessionLogs        = require('../libs/requests/get-session-logs');
 const extractScreenShotUrls = require('../libs/parsers/extract-screenshot-urls');
 const loadScreenshots       = require('../libs/loaders/load-screenshots');
@@ -30,9 +31,17 @@ const run = async (targetSessionId, outdir) => {
   const sessionOptions = genRequestOptions(constants.API_PATHS.sessions.replace('<build-id>', buildId));
   const sessionId      = await getSessionId(sessionOptions, targetSessionId);
 
-  const sessionLogsUrl = await getSessionLogsUrl(buildId, sessionId);
+  const [
+    sessionLogsUrl,
+    sessionOsName,
+    sessionOsVersion,
+    sessionBrowserName,
+    sessionBrowserVersion
+  ] = await getSessionInfo(buildId, sessionId);
   const sessionLogs    = await getSessionLogs(sessionLogsUrl);
   const screenShotUrls = extractScreenShotUrls(sessionLogs);
+  const sessionDirName = genSessionDirName(sessionOsName, sessionOsVersion, sessionBrowserName, sessionBrowserVersion);
+  const sessionOutDir  = `${outdir}${sessionDirName}/`;
 
   const latestMark     = targetSessionId
     ? ''
@@ -41,8 +50,8 @@ const run = async (targetSessionId, outdir) => {
 
   console.log(chalk.green('  Build ID:'), buildId);
   console.log(chalk.green('Session ID:'), sessionId, latestMark);
-  console.log(chalk.green('Output Dir:'), outdir);
-  await loadScreenshots(screenShotUrls, outdir);
+  console.log(chalk.green('Output Dir:'), sessionOutDir);
+  await loadScreenshots(screenShotUrls, sessionOutDir);
   if(screenShotUrls.length === 0){
     console.log(chalk.rgb(0, 0, 0).bgYellow.bold('This session has no screenshot!'));
   }

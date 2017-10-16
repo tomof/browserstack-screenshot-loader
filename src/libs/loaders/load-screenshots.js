@@ -1,4 +1,6 @@
 const fs          = require('fs');
+const rimraf      = require('rimraf');
+const mkdirp      = require('mkdirp');
 const request     = require('request');
 const ProgressBar = require('progress');
 const chalk       = require('chalk');
@@ -27,7 +29,7 @@ const loadUrlImage = (imageUrl, filename, progressBar) => {
   });
 };
 
-const loadScreenshots = async (screenShotUrls, outdir) => {
+const loadScreenshots = async (screenShotUrls, outputDir) => {
   const loadPromises = [];
   const progressBar  = new ProgressBar(emoji.emojify(':truck: downloading [:bar] :rate/bps :percent :etas'), {
     incomplete: ' ',
@@ -35,9 +37,13 @@ const loadScreenshots = async (screenShotUrls, outdir) => {
     total:      screenShotUrls.length
   });
 
+  // ダウンロード先のディレクトリを空の状態で用意
+  rimraf.sync(outputDir);
+  mkdirp.sync(outputDir);
+
   screenShotUrls.forEach((url, index) => {
     const fileNo = paddingZero(index);
-    loadPromises.push(loadUrlImage(url, `${outdir}${fileNo}.png`, progressBar));
+    loadPromises.push(loadUrlImage(url, `${outputDir}${fileNo}.png`, progressBar));
   });
   return new Promise((resolve) => {
     Promise.all(loadPromises)
