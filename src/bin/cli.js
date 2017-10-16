@@ -23,8 +23,8 @@ program.on('--help', () => {
 program.parse(process.argv);
 
 if(!credential.username || !credential.password){
-  console.error(chalk.red('Please set required settings!'));
   program.outputHelp();
+  console.error(chalk.rgb(0,0,0).bgRed('Please set BrowserStack account settings!'));
   process.exit(1);
 }
 
