@@ -7,11 +7,11 @@ const extractScreenShotUrls = (sessionLogs) => {
 
   sessionLogs.split(matchNewline).forEach(line => {
     if(line.search(matchScreenshotLine) < 0){
-      return false;
+      return;
     }
     const matchedScreenshotJson = line.match(extractScreenshotJson);
     if(!matchedScreenshotJson){
-      return false;
+      return;
     }
     const screenshotUrl = JSON.parse(matchedScreenshotJson[1]).value;
     urls.push(screenshotUrl);
